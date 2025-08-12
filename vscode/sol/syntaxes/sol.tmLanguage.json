@@ -4,6 +4,18 @@
   "scopeName": "source.sl",
   "patterns": [
     { "include": "#comments" },
+    {
+      "include": "#definitions"
+    },
+    {
+      "include": "#instanceVariables"
+    },
+    {
+      "include": "#parametersWithTypes"
+    },
+    {
+      "include": "#braces"
+    },
     { "include": "#strings" },
     { "include": "#numbers" },
     { "include": "#keywords" },
@@ -15,40 +27,169 @@
     "comments": {
       "patterns": [
         {
-          "name": "comment.line.double-slash.sol",
-          "match": "//.*$"
+          "name": "comment.line.number-sign",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "definitions": {
+      "patterns": [
+        {
+          "name": "meta.function.prototype",
+          "begin": "^\\s*(def\\.ext)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.declaration"
+            },
+            "2": {
+              "name": "entity.name.function"
+            }
+          },
+          "end": "$",
+          "patterns": [
+            {
+              "include": "#instanceVariables"
+            },
+            {
+              "include": "#parametersWithTypes"
+            },
+            {
+              "include": "#strings"
+            },
+            {
+              "include": "#numbers"
+            },
+            {
+              "include": "#types"
+            },
+            {
+              "include": "#operators"
+            },
+            {
+              "include": "#returnTypeArrow"
+            }
+          ]
         },
         {
-          "name": "comment.block.sol",
-          "begin": "/\\*",
-          "end": "\\*/"
+          "name": "meta.class",
+          "begin": "^\\s*(class)\\s+([A-Z][A-Za-z0-9_]*)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.declaration.class"
+            },
+            "2": {
+              "name": "entity.name.type.class"
+            }
+          },
+          "end": "^\\s*(end)\\s*$",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#classAttributes"
+            },
+            {
+              "include": "#instanceVariables"
+            },
+            {
+              "include": "#parametersWithTypes"
+            },
+            {
+              "include": "#strings"
+            },
+            {
+              "include": "#numbers"
+            },
+            {
+              "include": "#keywords"
+            },
+            {
+              "include": "#operators"
+            },
+            {
+              "include": "#functions"
+            }
+          ]
+        },
+        {
+          "name": "meta.function",
+          "begin": "^\\s*(def(?:\\.class)?)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.declaration"
+            },
+            "2": {
+              "name": "entity.name.function"
+            }
+          },
+          "end": "^\\s*(end)\\s*$",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#instanceVariables"
+            },
+            {
+              "include": "#parametersWithTypes"
+            },
+            {
+              "include": "#strings"
+            },
+            {
+              "include": "#numbers"
+            },
+            {
+              "include": "#keywords"
+            },
+            {
+              "include": "#operators"
+            },
+            {
+              "include": "#types"
+            }
+          ]
         }
       ]
     },
     "strings": {
       "patterns": [
         {
-          "name": "string.quoted.double.sol",
+          "name": "string.quoted.double",
           "begin": "\"",
           "end": "\"",
           "patterns": [
-            { "name": "constant.character.escape.sol", "match": "\\\\." }
+            {
+              "name": "constant.character.escape",
+              "match": "\\\\."
+            }
           ]
         },
         {
-          "name": "string.quoted.single.sol",
+          "name": "string.quoted.single",
           "begin": "'",
           "end": "'",
           "patterns": [
-            { "name": "constant.character.escape.sol", "match": "\\\\." }
+            {
+              "name": "constant.character.escape",
+              "match": "\\\\."
+            }
           ]
         },
         {
-          "name": "string.quoted.template.sol",
+          "name": "string.quoted.template",
           "begin": "`",
           "end": "`",
           "patterns": [
-            { "name": "constant.character.escape.sol", "match": "\\\\." }
+            {
+              "name": "constant.character.escape",
+              "match": "\\\\."
+            }
           ]
         }
       ]
@@ -56,15 +197,15 @@
     "numbers": {
       "patterns": [
         {
-          "name": "constant.numeric.integer.sol",
+          "name": "constant.numeric.integer",
           "match": "\\b0|[1-9]\\d*\\b"
         },
         {
-          "name": "constant.numeric.float.sol",
+          "name": "constant.numeric.float",
           "match": "\\b((\\d+\\.\\d*)|(\\.\\d+))(e[+-]?\\d+)?\\b"
         },
         {
-          "name": "constant.numeric.hex.sol",
+          "name": "constant.numeric.hex",
           "match": "\\b0x[0-9A-Fa-f_]+\\b"
         }
       ]
@@ -72,39 +213,63 @@
     "keywords": {
       "patterns": [
         {
-          "name": "keyword.control.sol",
-          "match": "\\b(if|else|for|while|break|continue|return|match|case|default|switch)\\b"
+          "name": "keyword.declaration",
+          "match": "\\bdef(\\.ext|\\.class)?\\b"
         },
         {
-          "name": "keyword.declaration.sol",
-          "match": "\\b(let|var|const|fn|func|function|class|struct|enum|trait|impl|module|import|from|as|pub|private|use|type|interface)\\b"
+          "name": "keyword.declaration.class",
+          "match": "\\bclass\\b"
         },
         {
-          "name": "storage.modifier.sol",
-          "match": "\\b(mut|ref|in|out|static|extern|virtual|override|async|await)\\b"
+          "name": "keyword.control",
+          "match": "\\bend\\b"
         },
         {
-          "name": "constant.language.sol",
-          "match": "\\b(true|false|null|nil|undefined)\\b"
+          "name": "keyword.control.loop",
+          "match": "\\bloop\\b"
+        },
+        {
+          "name": "variable.language.self",
+          "match": "\\bself\\b"
+        },
+        {
+          "name": "constant.language.boolean",
+          "match": "\\b(true|false)\\b"
+        },
+        {
+          "name": "keyword.control.return",
+          "match": "->"
         }
       ]
     },
     "types": {
       "patterns": [
         {
-          "name": "storage.type.primitive.sol",
-          "match": "\\b(u?int(8|16|32|64|128)?|float(32|64)?|bool|string|char|byte|void)\\b"
+          "name": "storage.type.primitive",
+          "match": "\\b(Int|Int32|Int64|BytePtr|Str|FnRef)\\b"
         },
         {
-          "name": "entity.name.type.sol",
+          "name": "entity.name.type",
           "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
+        }
+      ]
+    },
+    "braces": {
+      "patterns": [
+        {
+          "name": "punctuation.section.block.begin.sl",
+          "match": "\\{"
+        },
+        {
+          "name": "punctuation.section.block.end.sl",
+          "match": "\\}"
         }
       ]
     },
     "functions": {
       "patterns": [
         {
-          "name": "entity.name.function.sol",
+          "name": "entity.name.function",
           "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\s*(?=\\()"
         }
       ]
@@ -112,8 +277,60 @@
     "operators": {
       "patterns": [
         {
-          "name": "keyword.operator.sol",
+          "name": "keyword.operator",
           "match": "[+\\-*/%&|^!~=<>?:]+"
+        }
+      ]
+    },
+    "returnTypeArrow": {
+      "patterns": [
+        {
+          "name": "meta.return-type",
+          "match": "(->)\\s*([A-Z][A-Za-z0-9_]*)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.return"
+            },
+            "2": {
+              "name": "storage.type"
+            }
+          }
+        }
+      ]
+    },
+    "instanceVariables": {
+      "patterns": [
+        {
+          "name": "variable.other.property",
+          "match": "@[A-Za-z_][A-Za-z0-9_]*"
+        }
+      ]
+    },
+    "classAttributes": {
+      "patterns": [
+        {
+          "name": "meta.class.attribute",
+          "match": "^\\s*(@[A-Za-z_][A-Za-z0-9_]*)\\s+([A-Z][A-Za-z0-9_]*)",
+          "captures": {
+            "1": {
+              "name": "variable.other.property"
+            },
+            "2": {
+              "name": "storage.type"
+            }
+          }
+        }
+      ]
+    },
+    "parametersWithTypes": {
+      "patterns": [
+        {
+          "name": "variable.parameter",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b(?=\\s+[A-Z][A-Za-z0-9_]*)"
+        },
+        {
+          "name": "storage.type",
+          "match": "(?<=\\b[A-Za-z_][A-Za-z0-9_]*\\s+)[A-Z][A-Za-z0-9_]*"
         }
       ]
     }
