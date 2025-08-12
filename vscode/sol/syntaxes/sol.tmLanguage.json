@@ -1,0 +1,123 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Sol",
+  "scopeName": "source.sl",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#functions" },
+    { "include": "#operators" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.sol",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.sol",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.sol",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            { "name": "constant.character.escape.sol", "match": "\\\\." }
+          ]
+        },
+        {
+          "name": "string.quoted.single.sol",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            { "name": "constant.character.escape.sol", "match": "\\\\." }
+          ]
+        },
+        {
+          "name": "string.quoted.template.sol",
+          "begin": "`",
+          "end": "`",
+          "patterns": [
+            { "name": "constant.character.escape.sol", "match": "\\\\." }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer.sol",
+          "match": "\\b0|[1-9]\\d*\\b"
+        },
+        {
+          "name": "constant.numeric.float.sol",
+          "match": "\\b((\\d+\\.\\d*)|(\\.\\d+))(e[+-]?\\d+)?\\b"
+        },
+        {
+          "name": "constant.numeric.hex.sol",
+          "match": "\\b0x[0-9A-Fa-f_]+\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.sol",
+          "match": "\\b(if|else|for|while|break|continue|return|match|case|default|switch)\\b"
+        },
+        {
+          "name": "keyword.declaration.sol",
+          "match": "\\b(let|var|const|fn|func|function|class|struct|enum|trait|impl|module|import|from|as|pub|private|use|type|interface)\\b"
+        },
+        {
+          "name": "storage.modifier.sol",
+          "match": "\\b(mut|ref|in|out|static|extern|virtual|override|async|await)\\b"
+        },
+        {
+          "name": "constant.language.sol",
+          "match": "\\b(true|false|null|nil|undefined)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.primitive.sol",
+          "match": "\\b(u?int(8|16|32|64|128)?|float(32|64)?|bool|string|char|byte|void)\\b"
+        },
+        {
+          "name": "entity.name.type.sol",
+          "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "entity.name.function.sol",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\s*(?=\\()"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.sol",
+          "match": "[+\\-*/%&|^!~=<>?:]+"
+        }
+      ]
+    }
+  },
+  "fileTypes": ["sl"],
+  "uuid": "b8e8d3c0-5f44-45b5-a0b6-1e9f4d6b8f30"
+}

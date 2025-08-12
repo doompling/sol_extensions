@@ -4,18 +4,36 @@
   "description": "Sol language support",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.103.0"
+    "vscode": "^1.92.0"
   },
   "categories": [
+    "Programming Languages",
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:sol"
+  ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
+    "languages": [
       {
-        "command": "sol.helloWorld",
-        "title": "Hello World"
+        "id": "sol",
+        "aliases": [
+          "Sol",
+          "sol",
+          "sl"
+        ],
+        "extensions": [
+          ".sl"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "sol",
+        "scopeName": "source.sl",
+        "path": "./syntaxes/sol.tmLanguage.json"
       }
     ]
   },
@@ -28,7 +46,7 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.103.0",
+    "@types/vscode": "^1.92.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
