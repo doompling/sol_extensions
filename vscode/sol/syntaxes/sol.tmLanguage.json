@@ -4,30 +4,22 @@
   "scopeName": "source.sl",
   "patterns": [
     { "include": "#comments" },
-    {
-      "include": "#definitions"
-    },
-    {
-      "include": "#instanceVariables"
-    },
-    {
-      "include": "#parametersWithTypes"
-    },
-    {
-      "include": "#braces"
-    },
+    { "include": "#definitions" },
     { "include": "#strings" },
     { "include": "#numbers" },
     { "include": "#keywords" },
+    { "include": "#function-calls" },
     { "include": "#types" },
-    { "include": "#functions" },
-    { "include": "#operators" }
+    { "include": "#instanceVariables" },
+    { "include": "#variables" },
+    { "include": "#operators" },
+    { "include": "#braces" }
   ],
   "repository": {
     "comments": {
       "patterns": [
         {
-          "name": "comment.line.number-sign",
+          "name": "comment.line.number-sign.sl",
           "match": "#.*$"
         }
       ]
@@ -35,124 +27,67 @@
     "definitions": {
       "patterns": [
         {
-          "name": "meta.function.prototype",
+          "name": "meta.function.prototype.sl",
           "begin": "^\\s*(def\\.ext)\\s+([A-Za-z_][A-Za-z0-9_]*)",
           "beginCaptures": {
-            "1": {
-              "name": "keyword.declaration"
-            },
-            "2": {
-              "name": "entity.name.function"
-            }
+            "1": { "name": "keyword.control.def.sl" },
+            "2": { "name": "entity.name.function.sl" }
           },
           "end": "$",
           "patterns": [
             {
-              "include": "#instanceVariables"
+              "name": "meta.parameters.sl",
+              "begin": "\\(",
+              "beginCaptures": { "0": { "name": "punctuation.definition.parameters.begin.sl" } },
+              "end": "\\)",
+              "endCaptures": { "0": { "name": "punctuation.definition.parameters.end.sl" } },
+              "patterns": [
+                { "include": "#parametersWithTypes" },
+                { "include": "#types" }
+              ]
             },
-            {
-              "include": "#parametersWithTypes"
-            },
-            {
-              "include": "#strings"
-            },
-            {
-              "include": "#numbers"
-            },
-            {
-              "include": "#types"
-            },
-            {
-              "include": "#operators"
-            },
-            {
-              "include": "#returnTypeArrow"
-            }
+            { "include": "#returnTypeArrow" },
+            { "include": "$self" }
           ]
         },
         {
-          "name": "meta.class",
+          "name": "meta.class.sl",
           "begin": "^\\s*(class)\\s+([A-Z][A-Za-z0-9_]*)",
           "beginCaptures": {
-            "1": {
-              "name": "keyword.declaration.class"
-            },
-            "2": {
-              "name": "entity.name.type.class"
-            }
+            "1": { "name": "keyword.control.class.sl" },
+            "2": { "name": "entity.name.type.class.sl" }
           },
           "end": "^\\s*(end)\\s*$",
           "endCaptures": {
-            "1": {
-              "name": "keyword.control"
-            }
+            "1": { "name": "keyword.control.end.sl" }
           },
-          "patterns": [
-            {
-              "include": "#classAttributes"
-            },
-            {
-              "include": "#instanceVariables"
-            },
-            {
-              "include": "#parametersWithTypes"
-            },
-            {
-              "include": "#strings"
-            },
-            {
-              "include": "#numbers"
-            },
-            {
-              "include": "#keywords"
-            },
-            {
-              "include": "#operators"
-            },
-            {
-              "include": "#functions"
-            }
-          ]
+          "patterns": [{ "include": "$self" }]
         },
         {
-          "name": "meta.function",
+          "name": "meta.function.sl",
           "begin": "^\\s*(def(?:\\.class)?)\\s+([A-Za-z_][A-Za-z0-9_]*)",
           "beginCaptures": {
-            "1": {
-              "name": "keyword.declaration"
-            },
-            "2": {
-              "name": "entity.name.function"
-            }
+            "1": { "name": "keyword.control.def.sl" },
+            "2": { "name": "entity.name.function.sl" }
           },
           "end": "^\\s*(end)\\s*$",
           "endCaptures": {
-            "1": {
-              "name": "keyword.control"
-            }
+            "1": { "name": "keyword.control.end.sl" }
           },
           "patterns": [
             {
-              "include": "#instanceVariables"
+              "name": "meta.parameters.sl",
+              "begin": "\\(",
+              "beginCaptures": { "0": { "name": "punctuation.definition.parameters.begin.sl" } },
+              "end": "\\)",
+              "endCaptures": { "0": { "name": "punctuation.definition.parameters.end.sl" } },
+              "patterns": [
+                { "include": "#parametersWithTypes" },
+                { "include": "#types" },
+                { "include": "#variables" }
+              ]
             },
-            {
-              "include": "#parametersWithTypes"
-            },
-            {
-              "include": "#strings"
-            },
-            {
-              "include": "#numbers"
-            },
-            {
-              "include": "#keywords"
-            },
-            {
-              "include": "#operators"
-            },
-            {
-              "include": "#types"
-            }
+            { "include": "$self" }
           ]
         }
       ]
@@ -160,140 +95,85 @@
     "strings": {
       "patterns": [
         {
-          "name": "string.quoted.double",
+          "name": "string.quoted.double.sl",
           "begin": "\"",
           "end": "\"",
-          "patterns": [
-            {
-              "name": "constant.character.escape",
-              "match": "\\\\."
-            }
-          ]
+          "patterns": [{ "name": "constant.character.escape.sl", "match": "\\\\." }]
         },
         {
-          "name": "string.quoted.single",
+          "name": "string.quoted.single.sl",
           "begin": "'",
           "end": "'",
-          "patterns": [
-            {
-              "name": "constant.character.escape",
-              "match": "\\\\."
-            }
-          ]
+          "patterns": [{ "name": "constant.character.escape.sl", "match": "\\\\." }]
         },
         {
-          "name": "string.quoted.template",
+          "name": "string.quoted.template.sl",
           "begin": "`",
           "end": "`",
-          "patterns": [
-            {
-              "name": "constant.character.escape",
-              "match": "\\\\."
-            }
-          ]
+          "patterns": [{ "name": "constant.character.escape.sl", "match": "\\\\." }]
         }
       ]
     },
     "numbers": {
       "patterns": [
-        {
-          "name": "constant.numeric.integer",
-          "match": "\\b0|[1-9]\\d*\\b"
-        },
-        {
-          "name": "constant.numeric.float",
-          "match": "\\b((\\d+\\.\\d*)|(\\.\\d+))(e[+-]?\\d+)?\\b"
-        },
-        {
-          "name": "constant.numeric.hex",
-          "match": "\\b0x[0-9A-Fa-f_]+\\b"
-        }
+        { "name": "constant.numeric.integer.sl", "match": "\\b[0-9]+\\b" },
+        { "name": "constant.numeric.float.sl", "match": "\\b[0-9]+\\.[0-9]+\\b" },
+        { "name": "constant.numeric.hex.sl", "match": "\\b0x[0-9A-Fa-f_]+\\b" }
       ]
     },
     "keywords": {
       "patterns": [
-        {
-          "name": "keyword.declaration",
-          "match": "\\bdef(\\.ext|\\.class)?\\b"
-        },
-        {
-          "name": "keyword.declaration.class",
-          "match": "\\bclass\\b"
-        },
-        {
-          "name": "keyword.control",
-          "match": "\\bend\\b"
-        },
-        {
-          "name": "keyword.control.loop",
-          "match": "\\bloop\\b"
-        },
-        {
-          "name": "variable.language.self",
-          "match": "\\bself\\b"
-        },
-        {
-          "name": "constant.language.boolean",
-          "match": "\\b(true|false)\\b"
-        },
-        {
-          "name": "keyword.control.return",
-          "match": "->"
-        }
+        { "name": "keyword.control.sl", "match": "\\b(end|loop)\\b" },
+        { "name": "variable.language.self.sl", "match": "\\bself\\b" },
+        { "name": "constant.language.boolean.sl", "match": "\\b(true|false)\\b" },
+        { "name": "keyword.operator.arrow.sl", "match": "->" }
       ]
     },
     "types": {
       "patterns": [
-        {
-          "name": "storage.type.primitive",
-          "match": "\\b(Int|Int32|Int64|BytePtr|Str|FnRef)\\b"
-        },
-        {
-          "name": "entity.name.type",
-          "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
-        }
+        { "name": "storage.type.primitive.sl", "match": "\\b(Int|Int32|Int64|BytePtr|Str|FnRef)\\b" },
+        { "name": "entity.name.type.sl", "match": "\\b[A-Z][A-Za-z0-9_]*\\b" }
       ]
     },
     "braces": {
       "patterns": [
-        {
-          "name": "punctuation.section.block.begin.sl",
-          "match": "\\{"
-        },
-        {
-          "name": "punctuation.section.block.end.sl",
-          "match": "\\}"
-        }
+        { "name": "punctuation.section.block.begin.sl", "match": "\\{" },
+        { "name": "punctuation.section.block.end.sl", "match": "\\}" }
       ]
     },
-    "functions": {
+    "function-calls": {
       "patterns": [
         {
-          "name": "entity.name.function",
-          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\s*(?=\\()"
+          "name": "meta.function-call.sl",
+          "begin": "(\\b[A-Za-z_][A-Za-z0-9_]*)\\s*(\\()",
+          "beginCaptures": {
+            "1": { "name": "entity.name.function.call.sl" },
+            "2": { "name": "punctuation.section.function.begin.sl" }
+          },
+          "end": "(\\))",
+          "endCaptures": {
+            "1": { "name": "punctuation.section.function.end.sl" }
+          },
+          "patterns": [
+            { "include": "$self" }
+          ]
         }
       ]
     },
     "operators": {
       "patterns": [
-        {
-          "name": "keyword.operator",
-          "match": "[+\\-*/%&|^!~=<>?:]+"
-        }
+        { "name": "punctuation.accessor.sl", "match": "\\." },
+        { "name": "keyword.operator.sl", "match": "[+\\-*/%&|^!~=<>?:]+" }
       ]
     },
     "returnTypeArrow": {
       "patterns": [
         {
-          "name": "meta.return-type",
+          "name": "meta.return-type.sl",
           "match": "(->)\\s*([A-Z][A-Za-z0-9_]*)",
           "captures": {
-            "1": {
-              "name": "keyword.control.return"
-            },
-            "2": {
-              "name": "storage.type"
-            }
+            "1": { "name": "keyword.operator.arrow.sl" },
+            "2": { "name": "storage.type.sl" }
           }
         }
       ]
@@ -301,40 +181,30 @@
     "instanceVariables": {
       "patterns": [
         {
-          "name": "variable.other.property",
+          "name": "constant.language.symbol.sl",
           "match": "@[A-Za-z_][A-Za-z0-9_]*"
         }
       ]
     },
-    "classAttributes": {
+    "variables": {
       "patterns": [
         {
-          "name": "meta.class.attribute",
-          "match": "^\\s*(@[A-Za-z_][A-Za-z0-9_]*)\\s+([A-Z][A-Za-z0-9_]*)",
-          "captures": {
-            "1": {
-              "name": "variable.other.property"
-            },
-            "2": {
-              "name": "storage.type"
-            }
-          }
+          "name": "variable.other.sl",
+          "match": "\\b[a-z_][a-zA-Z0-9_]*\\b"
         }
       ]
     },
     "parametersWithTypes": {
       "patterns": [
         {
-          "name": "variable.parameter",
+          "name": "variable.parameter.sl",
           "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b(?=\\s+[A-Z][A-Za-z0-9_]*)"
         },
         {
-          "name": "storage.type",
+          "name": "storage.type.sl",
           "match": "(?<=\\b[A-Za-z_][A-Za-z0-9_]*\\s+)[A-Z][A-Za-z0-9_]*"
         }
       ]
     }
-  },
-  "fileTypes": ["sl"],
-  "uuid": "b8e8d3c0-5f44-45b5-a0b6-1e9f4d6b8f30"
+  }
 }
